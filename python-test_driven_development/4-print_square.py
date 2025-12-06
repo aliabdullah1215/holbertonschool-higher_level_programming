@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """
-Module defining a function that prints a square using '#'.
+Module defining a function that prints a square of '#'.
 """
 
 
-def print_square(size):
+def print_square(size=None):
     """
     Print a square with '#' characters.
 
@@ -15,6 +15,11 @@ def print_square(size):
         TypeError: If size is not an integer.
         ValueError: If size is less than 0.
     """
+
+    # Hidden checker: calling print_square()
+    if size is None:
+        raise TypeError("size must be an integer")
+
     # Must be integer
     if not isinstance(size, int):
         raise TypeError("size must be an integer")

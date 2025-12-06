@@ -1,57 +1,54 @@
 #!/usr/bin/python3
 """
-Module that defines a safe integer addition function.
-It validates types, rejects NaN and infinite floats,
-and cleanly handles overflow during integer conversion.
+Module for safely adding two numbers.
+Rejects NaN, infinite floats, and overflow values.
 """
+
+
+def valid_number(n, var_name):
+    """
+    Validate that n is an integer or a finite float.
+
+    Args:
+        n: value to validate
+        var_name: string for the error message ("a" or "b")
+
+    Raises:
+        TypeError: If n is not a valid integer/float
+    """
+
+    # Check type
+    if not isinstance(n, (int, float)):
+        raise TypeError(f"{var_name} must be an integer")
+
+    # NaN check (only NaN satisfies n != n)
+    if isinstance(n, float) and n != n:
+        raise TypeError(f"{var_name} must be an integer")
+
+    # Infinity / overflow detection
+    # (x + 1 == x) is only true for +inf or -inf
+    if isinstance(n, float) and (n + 1 == n):
+        raise TypeError(f"{var_name} must be an integer")
+
+    return int(n)
 
 
 def add_integer(a, b=98):
     """
-    Add two integers or floats after validating and safely converting them.
-
-    Floats are accepted only if they represent finite numeric values.
-    NaN and infinite values are rejected because they cannot be reliably
-    converted to integers. Unsupported types raise a TypeError.
+    Add two integers or floats safely and return their integer sum.
 
     Args:
-        a (int or float): First operand.
-        b (int or float): Second operand, default is 98.
+        a (int or float): first number
+        b (int or float): second number (default = 98)
 
     Returns:
-        int: The sum of the integer-converted operands.
+        int: integer sum of a and b
 
     Raises:
-        TypeError: If a or b is not a valid integer or float.
+        TypeError: If a or b is not a valid finite number
     """
-    # 1. Validate types
-    if not isinstance(a, (int, float)):
-        raise TypeError("a must be an integer")
-    if not isinstance(b, (int, float)):
-        raise TypeError("b must be an integer")
 
-    # 2. Reject NaN explicitly
-    # NaN != NaN is the only true test for NaN in Python
-    if isinstance(a, float) and (a != a):
-        raise TypeError("a must be an integer")
-    if isinstance(b, float) and (b != b):
-        raise TypeError("b must be an integer")
-
-    # 3. Reject infinite floats BEFORE casting to int
-    if isinstance(a, float) and (a == float('inf') or a == float('-inf')):
-        raise TypeError("a must be an integer")
-    if isinstance(b, float) and (b == float('inf') or b == float('-inf')):
-        raise TypeError("b must be an integer")
-
-    # 4. Try converting safely (catch overflow or invalid float states)
-    try:
-        a = int(a)
-    except Exception:
-        raise TypeError("a must be an integer")
-
-    try:
-        b = int(b)
-    except Exception:
-        raise TypeError("b must be an integer")
+    a = valid_number(a, "a")
+    b = valid_number(b, "b")
 
     return a + b

@@ -1,32 +1,20 @@
 #!/usr/bin/python3
 """
-Module defining a function that prints a square of '#'.
+Module defining a function that prints a square with '#'.
 """
 
 
-def print_square(*args):
+def print_square(size):
     """
     Print a square with '#' characters.
 
     Args:
-        size (int): The size of the square.
+        size (int): The size of the square (number of rows and columns).
 
     Raises:
         TypeError: If size is not an integer.
         ValueError: If size is less than 0.
     """
-
-    # Hidden checker: calling print_square() with 0 arguments
-    if len(args) == 0:
-        raise TypeError("size must be an integer")
-
-    # Hidden checker: calling print_square(a, b, ...)
-    if len(args) > 1:
-        raise TypeError("size must be an integer")
-
-    size = args[0]
-
-    # Now validate size
     if not isinstance(size, int):
         raise TypeError("size must be an integer")
 
@@ -35,3 +23,4 @@ def print_square(*args):
 
     for _ in range(size):
         print("#" * size)
+

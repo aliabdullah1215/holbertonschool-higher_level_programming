@@ -1,17 +1,43 @@
->>> text_indentation = __import__("5-text_indentation").text_indentation
->>> text_indentation("Hello. World")
-Hello.
+>>> t = __import__('5-text_indentation').text_indentation
+>>> t("hello")
+hello
+>>> t("hello:")
+hello:
 <BLANKLINE>
-World
->>> text_indentation("Hi?Yes:Ok")
-Hi?
+>>> t("hello: ")
+hello:
 <BLANKLINE>
-Yes:
+>>> t("hello? how are you?")
+hello?
 <BLANKLINE>
-Ok
->>> text_indentation(123)
-Traceback (most recent call last):
+how are you?
+<BLANKLINE>
+>>> t("hello:     how are you?")
+hello:
+<BLANKLINE>
+how are you?
+<BLANKLINE>
+>>> try:
+...     t(["word1", "word2"])
+... except Exception as e:
+...     print(e)
 ...
-TypeError: text must be a string
->>> text_indentation("No punctuation")
-No punctuation
+text must be a string
+>>> try:
+...     t(None)
+... except Exception as e:
+...     print(e)
+...
+text must be a string
+>>> try:
+...     t(5)
+... except Exception as e:
+...     print(e)
+...
+text must be a string
+>>> try:
+...     t()
+... except Exception as e:
+...     print(e)
+...
+text_indentation() missing 1 required positional argument: 'text'

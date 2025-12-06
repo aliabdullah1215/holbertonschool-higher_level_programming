@@ -3,8 +3,8 @@
 This module provides a function for adding two numbers.
 
 It ensures that both inputs are integers or floats, converting floats
-to integers before performing the addition. If the inputs are not valid
-numeric types, the function raises a TypeError with a clear message.
+to integers before performing the addition. Non-finite values such as
+NaN or infinity are rejected with a TypeError.
 """
 
 
@@ -15,17 +15,22 @@ def add_integer(a, b=98):
     floats to integers before performing the addition.
     """
 
-    # First: reject NaN immediately
+    # Reject NaN
     if isinstance(a, float) and a != a:
         raise TypeError("a must be an integer")
     if isinstance(b, float) and b != b:
         raise TypeError("b must be an integer")
 
-    # Second: validate types
+    # Reject infinity (float('inf'), float('-inf'))
+    if isinstance(a, float) and (a == float('inf') or a == float('-inf')):
+        raise TypeError("a must be an integer")
+    if isinstance(b, float) and (b == float('inf') or b == float('-inf')):
+        raise TypeError("b must be an integer")
+
+    # Validate types
     if not isinstance(a, (int, float)):
         raise TypeError("a must be an integer")
     if not isinstance(b, (int, float)):
         raise TypeError("b must be an integer")
 
-    # Third: convert floats to integers safely (already filtered NaN)
     return int(a) + int(b)

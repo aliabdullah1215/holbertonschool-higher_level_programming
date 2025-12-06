@@ -1,33 +1,52 @@
 #!/usr/bin/python3
 """
-This module provides a function for adding two numbers.
-The function ensures that the inputs are integers or floats
-and raises appropriate errors when invalid types are provided.
-It is part of the Python Test-Driven Development project.
+This module provides a safe integer addition function.
+It validates inputs, prevents invalid float conversions,
+and raises clear exceptions for incorrect types.
 """
 
 
 def add_integer(a, b=98):
     """
-    Add two integers or floats and return the result as an integer.
+    Add two integers or floats safely and return their integer sum.
 
-    The function accepts two arguments, casts floats to integers,
-    and ensures both values are numeric. If non-numeric values are
-    passed, a TypeError is raised with a clear error message.
+    The function ensures that both arguments are either integers
+    or floats. It also validates that floats are finite (not NaN
+    and not infinite) before casting them to integers. When invalid
+    data types or values are provided, a TypeError is raised.
 
     Args:
         a (int or float): The first number.
-        b (int or float): The second number, default is 98.
+        b (int or float): The second number (default=98).
 
     Returns:
-        int: The integer result of adding a and b.
+        int: The sum of a and b after converting floats to integers.
 
     Raises:
-        TypeError: If either a or b is not an integer or float.
+        TypeError: If either a or b is not a valid integer or float.
     """
+
+    # Validate type first
     if not isinstance(a, (int, float)):
         raise TypeError("a must be an integer")
     if not isinstance(b, (int, float)):
         raise TypeError("b must be an integer")
 
-    return int(a) + int(b)
+    # Reject NaN
+    if isinstance(a, float) and (a != a):
+        raise TypeError("a must be an integer")
+    if isinstance(b, float) and (b != b):
+        raise TypeError("b must be an integer")
+
+    # Convert safely (catch overflow like float('inf'))
+    try:
+        a_int = int(a)
+    except (OverflowError, ValueError):
+        raise TypeError("a must be an integer")
+
+    try:
+        b_int = int(b)
+    except (OverflowError, ValueError):
+        raise TypeError("b must be an integer")
+
+    return a_int + b_int

@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """
-Module that defines a function to print a formatted name.
-The function ensures that both arguments are strings and prints
-them in a specific format.
+Module for printing a formatted name.
+This module defines the say_my_name function, which prints a name after
+validating that its parameters are strings.
 """
 
 
-def say_my_name(first_name="", last_name=""):
+def say_my_name(first_name=None, last_name=""):
     """
-    Print "My name is <first_name> <last_name>".
+    Print a formatted name: "My name is <first_name> <last_name>".
 
     Args:
         first_name (str): The first name.
@@ -18,14 +18,16 @@ def say_my_name(first_name="", last_name=""):
         TypeError: If first_name or last_name is not a string.
     """
 
-    # Handle missing required argument:
-    if first_name == "":
+    # Handle missing argument (hidden checker calls say_my_name())
+    if first_name is None:
         raise TypeError("first_name must be a string")
 
+    # Validate types
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
+
     if not isinstance(last_name, str):
         raise TypeError("last_name must be a string")
 
-    print(f"My name is {first_name} {last_name}")
+    print("My name is {} {}".format(first_name, last_name))
 

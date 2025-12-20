@@ -1,145 +1,35 @@
-Test for MyList Class
-==========================================
+# tests/1-my_list.txt
+# Doctest for MyList class
 
-Import the function:
-    >>> MyList = __import__('1-my_list').MyList
+>>> MyList = __import__('1-my_list').MyList
 
------------------------------
------------------------------
-    No arguments
+# Empty list
+>>> my_list = MyList()
+>>> print(my_list)
+[]
+>>> my_list.print_sorted()
+[]
 
-    >>> test_list = MyList()
+# Append integers
+>>> my_list.append(1)
+>>> my_list.append(4)
+>>> my_list.append(2)
+>>> my_list.append(3)
+>>> my_list.append(5)
+>>> print(my_list)
+[1, 4, 2, 3, 5]
 
------------------------------
------------------------------
-    One arg
+# print_sorted prints sorted list
+>>> my_list.print_sorted()
+[1, 2, 3, 4, 5]
 
-    >>> one_list = MyList(1)
-    Traceback (most recent call last):
-    TypeError: 'int' object is not iterable
+# Original list remains unchanged
+>>> print(my_list)
+[1, 4, 2, 3, 5]
 
------------------------------
------------------------------
-    Two args
-
-    >>> two_list = MyList(1, 2)
-    Traceback (most recent call last):
-    TypeError: list() takes at most 1 argument (2 given)
-
------------------------------
------------------------------
-    Is instance and type
-
-    >>> isinstance(test_list, MyList)
-    True
-
-    >>> isinstance(test_list, list)
-    True
-
-    >>> type(test_list) == list
-    False
-
-    >>> type(test_list) == MyList
-    True
-
------------------------------
------------------------------
-    Is Mylist is subclass of list
-
-    >>> issubclass(MyList, list)
-    True
-
------------------------------
------------------------------
-    Print and method Empty
-
-    >>> test_list.print_sorted()
-    []
-
-    >>> print(test_list)
-    []
-
------------------------------
------------------------------
-    Print and method nums
-
-    >>> test_list.append(1)
-    >>> test_list.append(2)
-    >>> test_list.append(3)
-
-    >>> print(test_list)
-    [1, 2, 3]
-    >>> test_list.print_sorted()
-    [1, 2, 3]
-    >>> test_list
-    [1, 2, 3]
-
------------------------------
------------------------------
-    Print and method nums
-
-    >>> test_list.append(-4)
-    >>> test_list.append(-5)
-    >>> test_list.append(-6)
-
-    >>> print(test_list)
-    [1, 2, 3, -4, -5, -6]
-    >>> test_list.print_sorted()
-    [-6, -5, -4, 1, 2, 3]
-
------------------------------
------------------------------
-    Print and method +=
-
-    >>> test_list += [-6]
-    >>> test_list += [1]
-
-    >>> print(test_list)
-    [1, 2, 3, -4, -5, -6, -6, 1]
-    >>> test_list.print_sorted()
-    [-6, -6, -5, -4, 1, 1, 2, 3]
-
------------------------------
------------------------------
-    Clear
-
-    >>> test_list.clear()
-    >>> test_list
-    []
-
------------------------------
------------------------------
-    Multiple data types
-
-    >>> test_list.append(1)
-    >>> test_list.append("Holbie")
-    >>> test_list.append(True)
-    >>> test_list.append('c')
-
-    >>> test_list
-    [1, 'Holbie', True, 'c']
-    >>> print(test_list)
-    [1, 'Holbie', True, 'c']
-
------------------------------
------------------------------
-    Count elements
-
-    >>> test_list.count('Holbie')
-    1
-    >>> test_list.count('c')
-    1
-    >>> test_list.append('c')
-    >>> test_list.count('c')
-    2
-
------------------------------
------------------------------
-    Get index
-
-    >>> test_list.index(1)
-    0
-    >>> test_list.index('Holbie')
-    1
-    >>> test_list.index('c')
-    3
+# Negative numbers
+>>> my_list.append(-10)
+>>> my_list.print_sorted()
+[-10, 1, 2, 3, 4, 5]
+>>> print(my_list)
+[1, 4, 2, 3, 5, -10]

@@ -9,7 +9,7 @@ import sys
 
 
 def main():
-    """Connects to MySQL and prints states starting with 'N'."""
+    """Connects to a MySQL database and prints states starting with 'N'."""
     user = sys.argv[1]
     password = sys.argv[2]
     database = sys.argv[3]
@@ -24,7 +24,9 @@ def main():
 
     cursor = db.cursor()
     cursor.execute(
-        "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC;"
+        "SELECT * FROM states "
+        "WHERE name LIKE BINARY 'N%' "
+        "ORDER BY id ASC;"
     )
 
     for row in cursor.fetchall():

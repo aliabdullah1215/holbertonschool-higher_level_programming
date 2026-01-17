@@ -9,7 +9,7 @@ import sys
 
 
 def main():
-    """Connects to MySQL and filters states by user input."""
+    """Connects to a MySQL database and filters states by user input."""
     user = sys.argv[1]
     password = sys.argv[2]
     database = sys.argv[3]
@@ -26,7 +26,7 @@ def main():
     cursor = db.cursor()
     query = (
         "SELECT * FROM states "
-        "WHERE name = '{}' "
+        "WHERE BINARY name = '{}' "
         "ORDER BY id ASC;"
     ).format(state_name)
 

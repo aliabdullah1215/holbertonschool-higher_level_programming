@@ -1,70 +1,47 @@
-#!/usr/bin/python3
-"""
-Task 3: Display products from JSON or CSV
-"""
-
-from flask import Flask, render_template, request
 import json
 import csv
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-
-def read_json_file():
-    with open("products.json", "r") as f:
+def read_json():
+    with open('products.json', 'r') as f:
         return json.load(f)
 
-
-def read_csv_file():
+def read_csv():
     products = []
-    with open("products.csv", newline="") as f:
+    with open('products.csv', 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            products.append({
-                "id": int(row["id"]),
-                "name": row["name"],
-                "category": row["category"],
-                "price": float(row["price"])
-            })
+            row['id'] = int(row['id'])
+            row['price'] = float(row['price'])
+            products.append(row)
     return products
 
-
 @app.route('/products')
-def products():
-    source = request.args.get("source")
-    product_id = request.args.get("id")
+def display_products():
+    source = request.args.get('source')
+    product_id = request.args.get('id')
+    products = []
+    error = None
 
-    if source not in ["json", "csv"]:
-        return render_template(
-            "product_display.html",
-            error="Wrong source"
-        )
-
-    # Read data
-    if source == "json":
-        data = read_json_file()
+    if source == 'json':
+        products = read_json()
+    elif source == 'csv':
+        products = read_csv()
     else:
-        data = read_csv_file()
+        error = "Wrong source"
 
-    # Filter by id if provided
-    if product_id:
+    if not error and product_id:
         try:
             product_id = int(product_id)
-            data = [p for p in data if p["id"] == product_id]
+            products = [p for p in products if p['id'] == product_id]
+            if not products:
+                error = "Product not found"
         except ValueError:
-            data = []
+            error = "Product not found"
 
-        if not data:
-            return render_template(
-                "product_display.html",
-                error="Product not found"
-            )
-
-    return render_template(
-        "product_display.html",
-        products=data
-    )
-
+    return render_template('product_display.html', products=products, error=error)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
